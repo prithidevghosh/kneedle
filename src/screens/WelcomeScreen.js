@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Storage } from '../utils/storage';
 import { getStrings } from '../utils/language';
 import LanguageBar from '../components/LanguageBar';
+import FloatingOrbs from '../components/FloatingOrbs';
 
 export default function WelcomeScreen({ navigation }) {
   const [lang, setLang] = useState('en');
@@ -27,6 +28,9 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Full-screen animated orb layer — sits behind everything */}
+      <FloatingOrbs />
+
       <View style={styles.top}>
         <View style={styles.logoBox}>
           <Text style={styles.logoIcon}>🌿</Text>
@@ -36,6 +40,7 @@ export default function WelcomeScreen({ navigation }) {
         <Text style={styles.tagline}>{s.appTagline}</Text>
         <LanguageBar current={lang} onChange={handleLangChange} />
       </View>
+
       <View style={styles.bottom}>
         <TouchableOpacity style={styles.startBtn} onPress={handleStart} activeOpacity={0.85}>
           <Text style={styles.startBtnText}>{s.startBtn}</Text>
@@ -47,7 +52,7 @@ export default function WelcomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#1a3326' },
+  container: { flex: 1, backgroundColor: '#1a3326', overflow: 'hidden' },
   top: { flex: 1, paddingHorizontal: 24, paddingTop: 32, justifyContent: 'flex-end', paddingBottom: 32 },
   logoBox: {
     width: 52, height: 52, backgroundColor: '#52b788',
