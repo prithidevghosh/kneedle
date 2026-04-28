@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Storage } from '../utils/storage';
@@ -7,7 +8,7 @@ import LanguageBar from '../components/LanguageBar';
 import PainDots from '../components/PainDots';
 
 export default function HomeScreen({ navigation, route }) {
-  const [lang, setLang] = useState(route.params?.lang || 'bn');
+  const [lang, setLang] = useState(route.params?.lang || 'en');
   const [profile, setProfile] = useState(route.params?.profile || null);
   const [painLevel, setPainLevel] = useState(3);
   const [sessions, setSessions] = useState([]);
@@ -56,11 +57,15 @@ export default function HomeScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LanguageBar current={lang} onChange={handleLangChange} />
       <View style={styles.header}>
-        <Text style={styles.greeting}>{s.greeting}</Text>
-        <Text style={styles.name}>{displayName}</Text>
-        <Text style={styles.date}>{dateStr}</Text>
+        <View style={styles.headerTop}>
+          <View>
+            <Text style={styles.greeting}>{s.greeting}</Text>
+            <Text style={styles.name}>{displayName}</Text>
+            <Text style={styles.date}>{dateStr}</Text>
+          </View>
+        </View>
+        <LanguageBar current={lang} onChange={handleLangChange} />
       </View>
       <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
         <View style={styles.card}>
@@ -105,7 +110,8 @@ export default function HomeScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8f4e8' },
-  header: { backgroundColor: '#1a3326', paddingHorizontal: 18, paddingTop: 14, paddingBottom: 18 },
+  header: { backgroundColor: '#1a3326', paddingHorizontal: 18, paddingTop: 14, paddingBottom: 16 },
+  headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   greeting: { fontSize: 11, color: '#52b788', marginBottom: 2 },
   name: { fontSize: 22, fontWeight: '700', color: '#fff', marginBottom: 4 },
   date: { fontSize: 11, color: 'rgba(255,255,255,0.4)' },

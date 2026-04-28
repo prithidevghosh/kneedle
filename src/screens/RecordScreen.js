@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRef, useState, useEffect } from 'react';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -82,15 +83,17 @@ export default function RecordScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LanguageBar current={lang} onChange={() => {}} />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backTxt}>←</Text>
-        </TouchableOpacity>
-        <View>
-          <Text style={styles.headerTitle}>{s.recordTitle}</Text>
-          <Text style={styles.headerSub}>{s.recordSubtitle}</Text>
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+            <Text style={styles.backTxt}>←</Text>
+          </TouchableOpacity>
+          <View>
+            <Text style={styles.headerTitle}>{s.recordTitle}</Text>
+            <Text style={styles.headerSub}>{s.recordSubtitle}</Text>
+          </View>
         </View>
+        <LanguageBar current={lang} onChange={() => {}} />
       </View>
 
       <View style={styles.cameraWrap}>
@@ -157,8 +160,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8f4e8' },
   header: {
     backgroundColor: '#1a3326', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 14,
-    flexDirection: 'row', alignItems: 'center', gap: 12,
   },
+  headerRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   backBtn: {
     width: 32, height: 32, backgroundColor: 'rgba(255,255,255,0.12)',
     borderRadius: 8, alignItems: 'center', justifyContent: 'center',

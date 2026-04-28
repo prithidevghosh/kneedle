@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState, useRef } from 'react';
 import { getStrings } from '../utils/language';
 import LanguageBar from '../components/LanguageBar';

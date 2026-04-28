@@ -1,11 +1,12 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Storage } from '../utils/storage';
 import { getStrings } from '../utils/language';
 import LanguageBar from '../components/LanguageBar';
 
 export default function ProfileScreen({ navigation, route }) {
-  const [lang, setLang] = useState(route.params?.lang || 'bn');
+  const [lang, setLang] = useState(route.params?.lang || 'en');
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [knee, setKnee] = useState('both');
@@ -45,10 +46,10 @@ export default function ProfileScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LanguageBar current={lang} onChange={handleLangChange} />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{s.profileTitle}</Text>
         <Text style={styles.headerSub}>{s.profileSubtitle}</Text>
+        <LanguageBar current={lang} onChange={handleLangChange} />
       </View>
       <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
         <View style={styles.field}>

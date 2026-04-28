@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Storage } from '../utils/storage';
@@ -48,7 +49,7 @@ const chartStyles = StyleSheet.create({
 });
 
 export default function HistoryScreen({ navigation, route }) {
-  const [lang, setLang] = useState(route.params?.lang || 'bn');
+  const [lang, setLang] = useState(route.params?.lang || 'en');
   const [sessions, setSessions] = useState([]);
   const [painLog, setPainLog] = useState([]);
   const s = getStrings(lang);
@@ -94,20 +95,22 @@ export default function HistoryScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LanguageBar current={lang} onChange={handleLangChange} />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backTxt}>←</Text>
-        </TouchableOpacity>
-        <View>
-          <Text style={styles.headerTitle}>{s.historyTitle}</Text>
-          <Text style={styles.headerSub}>{sessions.length} {s.historySub}</Text>
-        </View>
-        {trend && (
-          <View style={[styles.trendBadge, { backgroundColor: trendColor + '22' }]}>
-            <Text style={[styles.trendTxt, { color: trendColor }]}>{trendLabel}</Text>
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+            <Text style={styles.backTxt}>←</Text>
+          </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.headerTitle}>{s.historyTitle}</Text>
+            <Text style={styles.headerSub}>{sessions.length} {s.historySub}</Text>
           </View>
-        )}
+          {trend && (
+            <View style={[styles.trendBadge, { backgroundColor: trendColor + '22' }]}>
+              <Text style={[styles.trendTxt, { color: trendColor }]}>{trendLabel}</Text>
+            </View>
+          )}
+        </View>
+        <LanguageBar current={lang} onChange={handleLangChange} />
       </View>
 
       <ScrollView style={styles.body} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
@@ -174,14 +177,14 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8f4e8' },
   header: {
     backgroundColor: '#1a3326', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 14,
-    flexDirection: 'row', alignItems: 'center', gap: 10,
   },
+  headerRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   backBtn: {
     width: 32, height: 32, backgroundColor: 'rgba(255,255,255,0.12)',
     borderRadius: 8, alignItems: 'center', justifyContent: 'center',
   },
   backTxt: { fontSize: 16, color: '#fff' },
-  headerTitle: { fontSize: 15, fontWeight: '700', color: '#fff', flex: 1 },
+  headerTitle: { fontSize: 15, fontWeight: '700', color: '#fff' },
   headerSub: { fontSize: 10, color: '#52b788', marginTop: 1 },
   trendBadge: {
     paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20,

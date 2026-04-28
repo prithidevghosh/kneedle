@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import * as Speech from 'expo-speech';
 import { getStrings } from '../utils/language';
@@ -39,16 +40,18 @@ export default function ResultsScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LanguageBar current={lang} onChange={setLang} />
       <View style={styles.header}>
-        <View>
-          <Text style={styles.headerTitle}>{s.resultsTitle}</Text>
-          <Text style={styles.headerSub}>{today}</Text>
+        <View style={styles.headerRow}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.headerTitle}>{s.resultsTitle}</Text>
+            <Text style={styles.headerSub}>{today}</Text>
+          </View>
+          <View style={[styles.scoreBadge, { backgroundColor: scoreColor }]}>
+            <Text style={styles.scoreNum}>{symmetryScore}</Text>
+            <Text style={styles.scoreLbl}>{lang === 'en' ? 'score' : 'স্কোর'}</Text>
+          </View>
         </View>
-        <View style={[styles.scoreBadge, { backgroundColor: scoreColor }]}>
-          <Text style={styles.scoreNum}>{symmetryScore}</Text>
-          <Text style={styles.scoreLbl}>{lang === 'en' ? 'score' : 'স্কোর'}</Text>
-        </View>
+        <LanguageBar current={lang} onChange={setLang} />
       </View>
 
       <ScrollView style={styles.body} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
@@ -113,6 +116,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8f4e8' },
   header: {
     backgroundColor: '#1a3326', paddingHorizontal: 18, paddingTop: 14, paddingBottom: 16,
+  },
+  headerRow: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
   },
   headerTitle: { fontSize: 18, fontWeight: '700', color: '#fff' },

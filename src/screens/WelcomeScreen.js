@@ -1,11 +1,12 @@
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { Storage } from '../utils/storage';
 import { getStrings } from '../utils/language';
 import LanguageBar from '../components/LanguageBar';
 
 export default function WelcomeScreen({ navigation }) {
-  const [lang, setLang] = useState('bn');
+  const [lang, setLang] = useState('en');
   const s = getStrings(lang);
 
   useEffect(() => {
@@ -26,7 +27,6 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LanguageBar current={lang} onChange={handleLangChange} />
       <View style={styles.top}>
         <View style={styles.logoBox}>
           <Text style={styles.logoIcon}>🌿</Text>
@@ -34,6 +34,7 @@ export default function WelcomeScreen({ navigation }) {
         <Text style={styles.appName}>{s.appName}</Text>
         <Text style={styles.appSub}>{s.appSubtitle}</Text>
         <Text style={styles.tagline}>{s.appTagline}</Text>
+        <LanguageBar current={lang} onChange={handleLangChange} />
       </View>
       <View style={styles.bottom}>
         <TouchableOpacity style={styles.startBtn} onPress={handleStart} activeOpacity={0.85}>

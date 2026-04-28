@@ -28,12 +28,13 @@ export default function LanguageBar({ current, onChange }) {
 
 const styles = StyleSheet.create({
   bar: {
-    backgroundColor: 'rgba(26,51,38,0.95)',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
     gap: 6,
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.1)',
   },
   label: { fontSize: 9, color: 'rgba(255,255,255,0.35)', marginRight: 2 },
   chip: {

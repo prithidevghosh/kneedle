@@ -9,7 +9,7 @@ export const Storage = {
     await AsyncStorage.setItem('kneedle_profile', JSON.stringify(profile));
   },
   async getLanguage() {
-    return await AsyncStorage.getItem('kneedle_lang') || 'bn';
+    return await AsyncStorage.getItem('kneedle_lang') || 'en';
   },
   async saveLanguage(lang) {
     await AsyncStorage.setItem('kneedle_lang', lang);
