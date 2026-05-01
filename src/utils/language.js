@@ -62,6 +62,11 @@ export const STRINGS = {
     diSuffix: ' দি',
     symmetryScore: 'সামঞ্জস্য স্কোর',
     session: 'সেশন',
+    qLightLabel: 'আলো',
+    qStableLabel: 'স্থির',
+    qLightDark: '☀️ আলো কম — উজ্জ্বল ঘরে যান',
+    qLightBright: '🌟 আলো বেশি — সরাসরি আলো এড়ান',
+    qShaking: '📱 ফোন নড়ছে — দেওয়ালে রাখুন',
   },
 
   hi: {
@@ -127,6 +132,11 @@ export const STRINGS = {
     diSuffix: ' जी',
     symmetryScore: 'समरूपता स्कोर',
     session: 'सत्र',
+    qLightLabel: 'रोशनी',
+    qStableLabel: 'स्थिर',
+    qLightDark: '☀️ रोशनी कम है — रोशन जगह जाएं',
+    qLightBright: '🌟 बहुत तेज़ रोशनी — सीधी धूप से बचें',
+    qShaking: '📱 फ़ोन हिल रहा है — दीवार से लगाएं',
   },
 
   en: {
@@ -158,7 +168,7 @@ export const STRINGS = {
     weekProgress: 'This week',
     daysLabel: 'days ✓',
     recordTitle: 'Record your walk',
-    recordSubtitle: '15 seconds is enough',
+    recordSubtitle: '8 seconds is enough',
     step1: 'Lean phone against wall, 3 feet off ground',
     step2: 'Stand 3 metres away, press red button',
     step3: 'Walk naturally toward the phone',
@@ -192,6 +202,11 @@ export const STRINGS = {
     diSuffix: '',
     symmetryScore: 'Symmetry score',
     session: 'Session',
+    qLightLabel: 'Light',
+    qStableLabel: 'Steady',
+    qLightDark: '☀️ Too dark — move to a brighter area',
+    qLightBright: '🌟 Too bright — avoid direct sunlight',
+    qShaking: '📱 Phone moving — lean it against a wall',
   }
 };
 

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState, useRef } from 'react';
 import { getStrings } from '../utils/language';
@@ -20,6 +20,7 @@ export default function AnalysisScreen({ navigation, route }) {
   const [step, setStep] = useState(0);
   const [activeJoint, setActiveJoint] = useState('hips');
   const [progress, setProgress] = useState(10);
+  const [errorMsg, setErrorMsg] = useState(null);
   const analysisRef = useRef(false);
 
   useEffect(() => {
@@ -30,7 +31,10 @@ export default function AnalysisScreen({ navigation, route }) {
 
   const runAnalysis = async () => {
     const stepDurations = [1800, 2200, 1600, 1400];
-    const apiPromise = API.analyseGait(videoUri, { ...profile, lang });
+
+    const sessions = await Storage.getSessions();
+    const sessionNumber = sessions.length + 1;
+    const apiPromise = API.analyseGait(videoUri, { ...profile, lang }, sessionNumber);
 
     for (let i = 0; i < STEPS_KEY.length; i++) {
       setStep(i);
@@ -40,13 +44,41 @@ export default function AnalysisScreen({ navigation, route }) {
     }
 
     setProgress(100);
-    const result = await apiPromise;
+
+    let result;
+    try {
+      result = await apiPromise;
+    } catch (err) {
+      // 400 (bad file), 500 (server crash), or network failure all land here.
+      // Gemma-down is a soft 200 fallback on the server — it never throws.
+      setErrorMsg(err.message || 'Analysis failed');
+      return;
+    }
+
     await Storage.saveSession({ result, videoUri, painLevel: profile?.painLevel });
 
     setTimeout(() => {
       navigation.replace('Results', { result, lang, profile });
     }, 400);
   };
+
+  if (errorMsg) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.errorWrap}>
+          <Text style={styles.errorTitle}>
+            {lang === 'bn' ? 'বিশ্লেষণ ব্যর্থ হয়েছে' : lang === 'hi' ? 'विश्लेषण विफल' : 'Analysis failed'}
+          </Text>
+          <Text style={styles.errorMsg}>{errorMsg}</Text>
+          <TouchableOpacity style={styles.errorBtn} onPress={() => navigation.goBack()}>
+            <Text style={styles.errorBtnTxt}>
+              {lang === 'bn' ? '← ফিরে যান' : lang === 'hi' ? '← वापस जाएं' : '← Go back'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -98,4 +130,9 @@ const styles = StyleSheet.create({
   stepActive: { color: '#52b788', fontWeight: '700' },
   progressBg: { backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 10, height: 4, marginTop: 8 },
   progressFill: { height: 4, backgroundColor: '#52b788', borderRadius: 10 },
+  errorWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
+  errorTitle: { fontSize: 18, fontWeight: '700', color: '#e76f51', marginBottom: 12, textAlign: 'center' },
+  errorMsg:   { fontSize: 13, color: 'rgba(255,255,255,0.7)', textAlign: 'center', marginBottom: 28 },
+  errorBtn:   { backgroundColor: '#2d6a4f', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 10 },
+  errorBtnTxt: { color: '#fff', fontWeight: '700', fontSize: 14 },
 });
