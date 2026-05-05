@@ -10,6 +10,7 @@ import RecordScreen   from './src/screens/RecordScreen';
 import AnalysisScreen from './src/screens/AnalysisScreen';
 import ResultsScreen  from './src/screens/ResultsScreen';
 import HistoryScreen  from './src/screens/HistoryScreen';
+import ExercisePlayerScreen from './src/screens/ExercisePlayerScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export default function App() {
           <Stack.Screen name="Analysis" component={AnalysisScreen} />
           <Stack.Screen name="Results"  component={ResultsScreen} />
           <Stack.Screen name="History"  component={HistoryScreen} />
+          <Stack.Screen name="ExercisePlayer" component={ExercisePlayerScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
